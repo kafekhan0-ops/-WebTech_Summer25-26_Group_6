@@ -1,0 +1,43 @@
+ICE CREAM DELIGHTS - MVC PROJECT STRUCTURE
+
+CONTROLLERS
+-----------
+Request handling and application flow.
+- login.php
+- register.php
+- logout.php
+- checkout.php
+- order.php
+- contact.php
+
+MODELS
+------
+Data/database and reusable application logic.
+- database.php
+- functions.php
+
+VIEWS
+-----
+Presentation/customer pages.
+- index.php
+- about.php
+- shop.php
+- product.php
+- cart.php
+- login.php
+- register.php
+- checkout.php
+- order.php
+- contact.php
+
+OTHER MODULES
+-------------
+admin/   -> Admin module
+api/     -> AJAX endpoints
+config/  -> Existing configuration compatibility
+includes/ -> Shared header/footer/helpers
+css/ js/ images/ -> Front-end assets
+database/ -> SQL/database resources
+
+The original root pages are preserved so the existing XAMPP project keeps
+working. The MVC folders organize the same functionality by responsibility.

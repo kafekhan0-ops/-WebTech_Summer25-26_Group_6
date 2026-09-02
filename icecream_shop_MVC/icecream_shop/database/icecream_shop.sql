@@ -1,0 +1,20 @@
+CREATE DATABASE IF NOT EXISTS icecream_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE icecream_shop;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS contact_messages;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS delivery_staff;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS admins;
+CREATE TABLE admins (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100) NOT NULL,email VARCHAR(150) NOT NULL UNIQUE,password VARCHAR(255) NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100) NOT NULL,email VARCHAR(150) NOT NULL UNIQUE,phone VARCHAR(30) DEFAULT '',address TEXT,password VARCHAR(255) NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE delivery_staff (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100) NOT NULL,email VARCHAR(150) NOT NULL UNIQUE,phone VARCHAR(30) DEFAULT '',address TEXT,password VARCHAR(255) NOT NULL,status VARCHAR(30) NOT NULL DEFAULT 'Active',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE products (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(120) NOT NULL,category VARCHAR(80) NOT NULL,price DECIMAL(10,2) NOT NULL,description TEXT,image VARCHAR(255) NOT NULL DEFAULT 'vanilla.svg',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE orders (id INT AUTO_INCREMENT PRIMARY KEY,user_id INT NOT NULL,delivery_staff_id INT NULL,customer_name VARCHAR(100) NOT NULL,phone VARCHAR(30) NOT NULL,address TEXT NOT NULL,payment_method VARCHAR(50) NOT NULL DEFAULT 'Cash on Delivery',total_amount DECIMAL(10,2) NOT NULL,status VARCHAR(30) NOT NULL DEFAULT 'Pending',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,FOREIGN KEY (delivery_staff_id) REFERENCES delivery_staff(id) ON DELETE SET NULL);
+CREATE TABLE order_items (id INT AUTO_INCREMENT PRIMARY KEY,order_id INT NOT NULL,product_id INT NOT NULL,quantity INT NOT NULL,price DECIMAL(10,2) NOT NULL,FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT);
+CREATE TABLE contact_messages (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100) NOT NULL,email VARCHAR(150) NOT NULL,subject VARCHAR(200) DEFAULT '',message TEXT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+INSERT INTO admins (name,email,password) VALUES ('Administrator','admin@icecream.com','$2y$12$n3p/2lvUdoli5TlEpse6lOyp6KFMJTlqlybz80ADKyfmbE08OF2yC');
+INSERT INTO delivery_staff (name,email,phone,password,status) VALUES ('Delivery Staff','delivery@icecream.com','+880 1700-000000','$2y$12$bWYGNvjCY0x2P20ELTVO4uSc5OhpceEpnc8x.GNyF8IfyBIUVtyGK','Active');
+INSERT INTO products (name,category,price,description,image) VALUES
+('Classic Vanilla','Classic',180.00,'Smooth vanilla ice cream with a rich creamy finish.','vanilla.svg'),('Strawberry Bliss','Fruit',220.00,'Sweet strawberry ice cream with a bright fruity taste.','strawberry.svg'),('Mint Dream','Classic',210.00,'Cool mint ice cream for a refreshing sweet treat.','mint.svg'),('Chocolate Fudge','Chocolate',250.00,'Deep chocolate flavor with a soft, creamy texture.','chocolate.svg'),('Mango Magic','Fruit',230.00,'Tropical mango ice cream made for sunny days.','mango.svg'),('Berry Cheesecake','Special',280.00,'Creamy cheesecake ice cream with berry swirls.','berry.svg');
